@@ -12,6 +12,12 @@ function flipside_redirect_login_page()
 {
     if(strpos($_SERVER['REQUEST_URI'], 'wp-login.php'))
     {
+        if(isset($_GET['action']) && $_GET['action'] == 'logout')
+        {
+            wp_logout();
+            wp_redirect('https://profiles.burningflipside.com/logout.php');
+            exit();
+        }
         $redirect = site_url();
         if(isset($_GET['redirect_to']))
         {
@@ -36,7 +42,7 @@ function flipside_redirect_login_page()
                 {
                     if($flipUser->isInGroupNamed('WordPressAdmins'))
                     {
-                        $wpUser->add_role('Administrator');
+                        $wpUser->set_role('administrator');
                     }
                     wp_set_current_user($wpUser->ID);
                     wp_set_auth_cookie($wpUser->ID);
@@ -47,7 +53,7 @@ function flipside_redirect_login_page()
                     if($flipUser->isInGroupNamed('WordPressAdmins'))
                     {
                         $wpUser = get_user_by('id', $uid);
-                        $wpUser->add_role('Administrator');
+                        $wpUser->set_role('administrator');
                     }
                     wp_set_current_user($uid);
                     wp_set_auth_cookie($uid);
