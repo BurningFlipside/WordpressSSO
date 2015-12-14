@@ -3,7 +3,7 @@
  * Plugin Name: Flipside Auth Plugin
  * Plugin URI: https://dev.burningflipside.com
  * Description: Flipside Auth.
- * Version: 0.1
+ * Version: 0.2
  * Author: Patrick
  */
 
@@ -34,10 +34,10 @@ function flipside_redirect_login_page()
             $new_id = $_COOKIE['PHPSESSID'];
             session_id($new_id);
             require_once('/var/www/common/class.FlipSession.php');
-            if(FlipSession::is_logged_in())
+            if(FlipSession::isLoggedIn())
             {
-                $flipUser = FlipSession::get_user(TRUE);
-                $wpUser = get_user_by('email', $flipUser->mail[0]);
+                $flipUser = FlipSession::getUser();
+                $wpUser = get_user_by('email', $flipUser->getEmail());
                 if($wpUser !== false)
                 {
                     if($flipUser->isInGroupNamed('WordPressAdmins'))
@@ -46,10 +46,11 @@ function flipside_redirect_login_page()
                     }
                     wp_set_current_user($wpUser->ID);
                     wp_set_auth_cookie($wpUser->ID);
+                    do_action('wp_login', $wpUser->user_login);
                 }
                 else
                 {
-                    $uid = wp_create_user($flipUser->uid[0], wp_generate_password($length=12, $include_standard_special_chars=false), $flipUser->mail[0]);
+                    $uid = wp_create_user($flipUser->getUid(), wp_generate_password($length=12, $include_standard_special_chars=false), $flipUser->getEmail());
                     if($flipUser->isInGroupNamed('WordPressAdmins'))
                     {
                         $wpUser = get_user_by('id', $uid);
