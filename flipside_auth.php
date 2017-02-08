@@ -37,7 +37,7 @@ function flipside_redirect_login_page()
             if(FlipSession::isLoggedIn())
             {
                 $flipUser = FlipSession::getUser();
-                $wpUser = get_user_by('email', $flipUser->getEmail());
+                $wpUser = get_user_by('email', $flipUser->mail);
                 if($wpUser !== false)
                 {
                     if($flipUser->isInGroupNamed('WordPressAdmins'))
@@ -50,7 +50,7 @@ function flipside_redirect_login_page()
                 }
                 else
                 {
-                    $uid = wp_create_user($flipUser->getUid(), wp_generate_password($length=12, $include_standard_special_chars=false), $flipUser->getEmail());
+                    $uid = wp_create_user($flipUser->uid, wp_generate_password($length=12, $include_standard_special_chars=false), $flipUser->mail);
                     if($flipUser->isInGroupNamed('WordPressAdmins'))
                     {
                         $wpUser = get_user_by('id', $uid);
