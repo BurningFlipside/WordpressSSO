@@ -15,7 +15,7 @@ function flipside_redirect_login_page()
         if(isset($_GET['action']) && $_GET['action'] == 'logout')
         {
             wp_logout();
-            wp_redirect('https://profiles.burningflipside.com/logout.php');
+            wp_redirect(getenv('PROFILES_URL').'/logout.php');
             exit();
         }
         $redirect = site_url();
@@ -23,7 +23,7 @@ function flipside_redirect_login_page()
         {
             $redirect = $_GET['redirect_to'];
         }
-        wp_redirect('https://profiles.burningflipside.com/login.php?return='.$redirect);
+        wp_redirect(getenv('PROFILES_URL').'/login.php?return='.$redirect);
         exit();
     }
     if(!is_user_logged_in())
