@@ -55,7 +55,7 @@ function flipside_redirect_login_page()
                     }
                     wp_set_current_user($wpUser->ID);
                     wp_set_auth_cookie($wpUser->ID);
-                    do_action('wp_login', $wpUser->user_login);
+                    do_action('wp_login', $wpUser->user_login, $wpUser);
                 }
                 else
                 {
