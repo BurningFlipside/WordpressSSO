@@ -42,10 +42,10 @@ function flipside_redirect_login_page()
             $old_id = session_id();
             $new_id = $_COOKIE['PHPSESSID'];
             session_id($new_id);
-            require_once('/var/www/common/class.FlipSession.php');
-            if(FlipSession::isLoggedIn())
+            require_once('/var/www/common/FlipSession.php');
+            if(\Flipside\FlipSession::isLoggedIn())
             {
-                $flipUser = FlipSession::getUser();
+                $flipUser = \Flipside\FlipSession::getUser();
                 $wpUser = get_user_by('email', $flipUser->mail);
                 if($wpUser !== false)
                 {
